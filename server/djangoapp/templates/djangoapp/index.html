@@ -19,11 +19,21 @@
     <nav class="navbar bg-dark">
         <div class="container-fluid">
             <div class="navbar-header d-flex p-2 d-flex p-2 w-100 text-white">
-                <a class="navbar-brand text-white" href="{% url 'djangoapp:index' %}">Best Cars</a>
+                <a class="navbar-brand text-white" href="{% url 'djangoapp:index' %}">Dealership</a>
+                {% if user.is_authenticated %}
                 <div class="ml-auto">
-                    <a class="btn btn-sm text-white" href="{% url 'djangoapp:about' %}">About Us</a>
-                    <a class="btn btn-sm text-white" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                    <a class="h6 mr-2 text-light">Welcome, {{user.username}}</a>
+                    <a class="btn btn-outline-danger btn-sm" type="button" href="{% url 'djangoapp:logout' %}">Logout</a>
                 </div>
+                {% else %}
+                <form action="{% url 'djangoapp:login' %}"  method="post" class="ml-auto">
+                    {% csrf_token %}<!--Important do not touch-->
+                    <input class="" type="text" id="username" name="username" placeholder="UserName:">
+                    <input type="password" id="pword" name="pword" placeholder="Password:">
+                    <input class="btn btn-outline-success btn-sm" type="submit" value="Login">
+                    <a class="btn btn-outline-warning btn-sm" type="submit" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+                </form>
+                {% endif %}
 
             </div>
         </div>
@@ -33,6 +43,7 @@
 
 <footer class="navbar fixed-bottom bg-dark">
     <div class="container">
+        <a class="btn btn-sm btn btn-light" href="{% url 'djangoapp:about' %}">About Us</a>
         <a class="btn btn-sm btn btn-light" href="{% url 'djangoapp:contact' %}">Contact Us</a>
     </div>
 </footer>
